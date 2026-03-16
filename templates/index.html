@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bio AI Assistant</title>
+    <meta charset="UTF-8">
+    <title>BOI AI Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
 
-<h1>生物学科 AI 助教</h1>
+<div class="chat-container">
 
-<textarea id="question" rows="4" cols="50"></textarea>
-<br>
-<button onclick="send()">发送</button>
+    <div class="chat-header">
+        BOI AI Biology Assistant
+        {% if username %}
+        <span style="float:right; font-size:13px; opacity:.85;">
+            {{ username }}（学生） · <a href="/logout" style="color:#19c37d; text-decoration:none;">退出</a>
+        </span>
+        {% endif %}
+    </div>
 
-<h3>回答：</h3>
-<div id="answer"></div>
+    <div id="chat-box" class="chat-box"></div>
+
+    <div class="input-area">
+        <input id="question" type="text" placeholder="输入你的生物问题..." />
+        <button onclick="sendMessage()">发送</button>
+    </div>
+
+</div>
 
 <script src="/static/main.js"></script>
 

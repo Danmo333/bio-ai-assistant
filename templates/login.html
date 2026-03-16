@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>登录 - BOI AI Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .auth-container{
+            width: 420px;
+            background:#444654;
+            border-radius:8px;
+            padding:24px 28px 28px;
+            color:#fff;
+        }
+        .auth-title{
+            font-size:20px;
+            margin-bottom:4px;
+        }
+        .auth-sub{
+            font-size:13px;
+            opacity:.8;
+            margin-bottom:18px;
+        }
+        .field{
+            margin-bottom:14px;
+        }
+        .field label{
+            display:block;
+            font-size:13px;
+            margin-bottom:4px;
+            opacity:.9;
+        }
+        .field input, .field select{
+            width:100%;
+            padding:10px 12px;
+            border-radius:6px;
+            border:none;
+            outline:none;
+            font-size:14px;
+        }
+        .btn-primary{
+            width:100%;
+            padding:10px 12px;
+            border:none;
+            border-radius:6px;
+            background:#19c37d;
+            color:#fff;
+            font-size:15px;
+            cursor:pointer;
+            margin-top:6px;
+        }
+        .btn-primary:hover{
+            background:#17a96b;
+        }
+        .switch{
+            margin-top:10px;
+            font-size:13px;
+            text-align:center;
+            opacity:.9;
+        }
+        .switch a{
+            color:#19c37d;
+            text-decoration:none;
+        }
+        .switch a:hover{
+            text-decoration:underline;
+        }
+        .msg{
+            font-size:13px;
+            margin-bottom:10px;
+        }
+        .msg.error{color:#ffb4b4;}
+        .msg.success{color:#9be7c4;}
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    {% if mode == 'register' %}
+        <div class="auth-title">用户注册</div>
+        <div class="auth-sub">请选择角色（学生 / 教师），完成注册后登录使用系统。</div>
+        {% if error %}
+        <div class="msg error">{{ error }}</div>
+        {% endif %}
+        <form method="post" action="/register">
+            <div class="field">
+                <label for="reg-username">用户名</label>
+                <input id="reg-username" name="username" placeholder="请输入用户名" required>
+            </div>
+            <div class="field">
+                <label for="reg-password">密码</label>
+                <input id="reg-password" name="password" type="password" placeholder="请输入密码" required>
+            </div>
+            <div class="field">
+                <label for="role">角色</label>
+                <select id="role" name="role">
+                    <option value="student">学生</option>
+                    <option value="teacher">教师</option>
+                </select>
+            </div>
+            <button class="btn-primary" type="submit">注册</button>
+        </form>
+        <div class="switch">
+            已有账号？<a href="/login">去登录</a>
+        </div>
+    {% else %}
+        <div class="auth-title">用户登录</div>
+        <div class="auth-sub">登录后，学生进入 AI 对话页面，教师进入问题统计页面。</div>
+        {% if error %}
+        <div class="msg error">{{ error }}</div>
+        {% endif %}
+        {% if success %}
+        <div class="msg success">{{ success }}</div>
+        {% endif %}
+        <form method="post" action="/login">
+            <div class="field">
+                <label for="login-username">用户名</label>
+                <input id="login-username" name="username" placeholder="请输入用户名" required>
+            </div>
+            <div class="field">
+                <label for="login-password">密码</label>
+                <input id="login-password" name="password" type="password" placeholder="请输入密码" required>
+            </div>
+            <button class="btn-primary" type="submit">登录</button>
+        </form>
+        <div class="switch">
+            还没有账号？<a href="/register">去注册</a>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
+

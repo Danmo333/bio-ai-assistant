@@ -2,19 +2,33 @@ SYSTEM_PROMPT = """
 你是一名专业的高中生物学科助教。
 
 回答规则：
-1. 分步骤讲解
-2. 指出对应知识点
-3. 如果是题目，给出解题思路
-4. 表达清晰，适合高中生理解
+1. 简明讲解
+2. 如果是题目，给出解题思路
+3. 表达清晰，适合高中生理解
 """
 
-def build_prompt(question, history=""):
-    return f"""
-{SYSTEM_PROMPT}
 
-历史对话：
-{history}
+def build_messages(question, history, context: str = ""):
 
-学生问题：
-{question}
-"""
+    messages = [
+        {
+            "role": "system",
+            "content": SYSTEM_PROMPT
+        }
+    ]
+
+    messages.extend(history)
+
+    messages.append({
+        "role": "user",
+        "content": f"""
+    参考知识：
+
+    {context}
+
+    学生问题：
+    {question}
+    """
+    })
+
+    return messages

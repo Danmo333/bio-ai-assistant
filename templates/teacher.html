@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师后台 - BOI AI Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .panel{
+            padding: 16px 20px;
+            color: #fff;
+            border-bottom: 1px solid #555;
+        }
+        .grid{
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .card{
+            background: #565869;
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+        .label{opacity: .8; font-size: 12px;}
+        .value{font-size: 18px; margin-top: 6px; word-break: break-word;}
+        .table-wrap{padding: 16px 20px; color:#fff;}
+        table{width:100%; border-collapse: collapse;}
+        th, td{padding: 10px 12px; border-bottom: 1px solid #555; text-align:left; vertical-align: top;}
+        th{opacity: .9;}
+        .muted{opacity: .75;}
+        a{color:#19c37d; text-decoration: none;}
+        a:hover{text-decoration: underline;}
+        @media (max-width: 900px){
+            .chat-container{width: 95vw;}
+            .grid{grid-template-columns: 1fr;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        教师后台统计
+        <span class="muted" style="float:right; font-size:13px;">
+            教师端 · <a href="/logout">退出</a>
+        </span>
+    </div>
+
+    <div class="panel">
+        <div class="muted">数据库统计</div>
+        <div class="grid">
+            <div class="card">
+                <div class="label">总问答数</div>
+                <div class="value">{{ stats.total_chats }}</div>
+            </div>
+            <div class="card">
+                <div class="label">最早记录</div>
+                <div class="value">{{ stats.first_chat_at or "—" }}</div>
+            </div>
+            <div class="card">
+                <div class="label">最新记录</div>
+                <div class="value">{{ stats.last_chat_at or "—" }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <div class="muted" style="margin-bottom:10px;">高频问题（Top 20）</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 80%;">问题</th>
+                    <th style="width: 20%;">次数</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if top_questions and top_questions|length > 0 %}
+                {% for q, cnt in top_questions %}
+                <tr>
+                    <td>{{ q }}</td>
+                    <td>{{ cnt }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="2" class="muted">暂无数据</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
